@@ -1,6 +1,6 @@
-console.log('hello');
+console.log('hell2o');
 
-document.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
   const displayImage = document.getElementById('display-image');
   const contentUrl = '/apltv/channel/5054/play.json'; // URL to fetch content
 
@@ -60,4 +60,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   createStyleSheet(); // Ensure the style sheet is created
   updateContent(); // Start fetching and displaying content
-});
+//});
