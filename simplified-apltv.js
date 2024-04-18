@@ -1,7 +1,7 @@
 console.log('hello');
 
 const displayImage = document.getElementById('display-image');
-const contentUrl = '/apltv/channel/5054/play.json'; // Local URL to fetch content
+const contentUrl = '/apltv/channel/playa.json'; // Local URL to fetch content
 
 // Function to dynamically create a style sheet
 function createStyleSheet() {
