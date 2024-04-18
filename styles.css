@@ -1,16 +1,30 @@
 body {
-	margin: 0;
-	background: black;
+    margin: 0;
+    background: black;
+    height: 100%;  /* Ensures that the body takes full height of the viewport */
+    overflow: hidden; /* Prevents any scrolling caused by overflow */
 }
+
 #display-container {
-	margin: 0;
-	padding: 0;
+    width: 100vw;   /* Viewport Width: 100% of the viewport width */
+    height: 100vh;  /* Viewport Height: 100% of the viewport height */
+    margin: 0;
+    padding: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img.fade-in-out {
+    width: 100vw;   /* Viewport Width: Ensures the image is as wide as the viewport */
+    height: 100vh;  /* Viewport Height: Ensures the image is as high as the viewport */
+    object-fit: cover; /* Covers the viewport while maintaining the aspect ratio */
+    object-position: center; /* Center the image within the element's box */
+    animation: fade-in-out 38s linear infinite;
 }
 
 @keyframes fade-in-out {
-  0%, 100% { opacity: 0; }
-  20%, 80% { opacity: 1; }
-}
-img.fade-in-out {
-  animation: fade-in-out 38s linear infinite;
+    0%, 100% { opacity: 0; }
+    20%, 80% { opacity: 1; }
 }
