@@ -10,6 +10,11 @@
     <div id="display-container">
         <img id="display-image" src="" alt="Event Display">
     </div>
-    <script src="simplified-apltv.js"></script>
+    <script>
+        // Dynamically append the script with a cache-busting URL parameter
+        var script = document.createElement('script');
+        script.src = 'simplified-apltv.js?cb=' + new Date().getTime(); // Timestamp as cache-buster
+        document.body.appendChild(script);
+    </script>
 </body>
 </html>
