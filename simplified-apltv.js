@@ -1,63 +1,61 @@
-console.log('hell3o');
+console.log('hello');
 
-//document.addEventListener('DOMContentLoaded', function() {
-  const displayImage = document.getElementById('display-image');
-  const contentUrl = '/APLTV/channel/5054/play.json'; // URL to fetch content
+const displayImage = document.getElementById('display-image');
+const contentUrl = '/apltv/channel/5054/play.json'; // Local URL to fetch content
 
-  // Function to dynamically create a style sheet
-  function createStyleSheet() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      img.fade-in {
-        animation: fade-in 2s;
-      }
-    `;
-    document.head.appendChild(style);
-    console.log('Style sheet created and added to the document.'); // Log when stylesheet is added
-  }
-
-  async function fetchContent() {
-    console.log('Fetching content from:', contentUrl); // Log fetching attempt
-    try {
-      const response = await fetch(contentUrl);
-      const data = await response.json();
-      const urls = data.map(item => 'https://library.austintexas.gov' + item.url);
-      console.log('Fetched and processed content URLs:', urls); // Log the URLs after processing
-      return urls;
-    } catch (error) {
-      console.error('Failed to fetch content:', error);
-      return []; // Return empty in case of error to prevent app crash
+// Function to dynamically create a style sheet
+function createStyleSheet() {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-  }
-
-  async function updateContent() {
-    const contentUrls = await fetchContent();
-    console.log('Content URLs to display:', contentUrls); // Log the final URLs to be displayed
-    let currentIndex = 0;
-
-    function cycleContent() {
-      if (contentUrls.length === 0) {
-        console.log('No content to display.'); // Log if there's no content
-        return; // Avoid running if no content is fetched
-      }
-      console.log('Displaying image:', contentUrls[currentIndex]); // Log current image being displayed
-      displayImage.src = contentUrls[currentIndex];
-      displayImage.classList.add('fade-in');
-      setTimeout(() => {
-        displayImage.classList.remove('fade-in');
-        currentIndex = (currentIndex + 1) % contentUrls.length;
-        console.log('Scheduled next image display.'); // Log when next image is scheduled
-        setTimeout(cycleContent, 3000); // Change to your desired display time
-      }, 5000); // Content display duration
+    img.fade-in {
+      animation: fade-in 2s;
     }
+  `;
+  document.head.appendChild(style);
+  console.log('Style sheet created and added to the document.'); // Log when stylesheet is added
+}
 
-    cycleContent(); // Start displaying content
+async function fetchContent() {
+  console.log('Fetching content from:', contentUrl); // Log fetching attempt
+  try {
+    const response = await fetch(contentUrl);
+    const data = await response.json();
+    const urls = data.map(item => '/images' + item.url); // Assuming '/images' is your local directory
+    console.log('Fetched and processed content URLs:', urls); // Log the URLs after processing
+    return urls;
+  } catch (error) {
+    console.error('Failed to fetch content:', error);
+    return []; // Return empty in case of error to prevent app crash
+  }
+}
+
+async function updateContent() {
+  const contentUrls = await fetchContent();
+  console.log('Content URLs to display:', contentUrls); // Log the final URLs to be displayed
+  let currentIndex = 0;
+
+  function cycleContent() {
+    if (contentUrls.length === 0) {
+      console.log('No content to display.'); // Log if there's no content
+      return; // Avoid running if no content is fetched
+    }
+    console.log('Displaying image:', contentUrls[currentIndex]); // Log current image being displayed
+    displayImage.src = contentUrls[currentIndex];
+    displayImage.classList.add('fade-in');
+    setTimeout(() => {
+      displayImage.classList.remove('fade-in');
+      currentIndex = (currentIndex + 1) % contentUrls.length;
+      console.log('Scheduled next image display.'); // Log when next image is scheduled
+      setTimeout(cycleContent, 3000); // Change to your desired display time
+    }, 5000); // Content display duration
   }
 
-  createStyleSheet(); // Ensure the style sheet is created
-  updateContent(); // Start fetching and displaying content
-//});
+  cycleContent(); // Start displaying content
+}
+
+createStyleSheet(); // Ensure the style sheet is created
+updateContent(); // Start fetching and displaying content
