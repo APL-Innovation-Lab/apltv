@@ -24,7 +24,7 @@ async function fetchContent() {
   try {
     const response = await fetch(contentUrl);
     const data = await response.json();
-    const urls = data.map(item => '/images' + item.url); // Assuming '/images' is your local directory
+    const urls = data.map(item => item.url);
     console.log('Fetched and processed content URLs:', urls); // Log the URLs after processing
     return urls;
   } catch (error) {
