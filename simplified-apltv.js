@@ -3,16 +3,16 @@ console.log('hello');
 const displayImage = document.getElementById('display-image');
 const contentUrl = '/apltv/channel/playa.json'; // Local URL to fetch content
 
-// Function to dynamically create a style sheet
+// Function to dynamically create a style sheet for fading animations
 function createStyleSheet() {
   const style = document.createElement('style');
   style.innerHTML = `
-    @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fade-in-out {
+      0%, 100% { opacity: 0; }
+      5%, 95% { opacity: 1; }
     }
-    img.fade-in {
-      animation: fade-in 2s;
+    img.fade-in-out {
+      animation: fade-in-out 34s linear infinite;
     }
   `;
   document.head.appendChild(style);
@@ -45,16 +45,12 @@ async function updateContent() {
     }
     console.log('Displaying image:', contentUrls[currentIndex]); // Log current image being displayed
     displayImage.src = contentUrls[currentIndex];
-    displayImage.classList.add('fade-in');
-    setTimeout(() => {
-      displayImage.classList.remove('fade-in');
-      currentIndex = (currentIndex + 1) % contentUrls.length;
-      console.log('Scheduled next image display.'); // Log when next image is scheduled
-      setTimeout(cycleContent, 3000); // Change to your desired display time
-    }, 5000); // Content display duration
+    displayImage.classList.add('fade-in-out');
+    currentIndex = (currentIndex + 1) % contentUrls.length;
+    console.log('Scheduled next image display.'); // Log when next image is scheduled
   }
 
-  cycleContent(); // Start displaying content
+  setInterval(cycleContent, 34000); // 34 seconds for each complete animation cycle
 }
 
 createStyleSheet(); // Ensure the style sheet is created
