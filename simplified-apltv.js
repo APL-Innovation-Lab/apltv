@@ -1,14 +1,22 @@
 console.log('hello');
 
-document.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
   const displayImage = document.getElementById('display-image');
   const contentUrl = 'https://library.austintexas.gov/apltv/channel/5054/play.json'; // URL to fetch content
 
   // Function to dynamically create a style sheet
   function createStyleSheet() {
     const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      img.fade-in {
+        animation: fade-in 2s;
+      }
+    `;
     document.head.appendChild(style);
-    style.sheet.insertRule('@keyframes fade-in {from { opacity: 0; }to { opacity: 1; }}img.fade-in {animation: fade-in 2s;}', style.sheet.cssRules.length);
     console.log('Style sheet created and added to the document.'); // Log when stylesheet is added
   }
 
@@ -52,4 +60,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   createStyleSheet(); // Ensure the style sheet is created
   updateContent(); // Start fetching and displaying content
-});
+//});
