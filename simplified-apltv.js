@@ -1,8 +1,8 @@
 console.log('hello');
 
-//document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
   const displayImage = document.getElementById('display-image');
-  const contentUrl = 'https://library.austintexas.gov/apltv/channel/5054/play.json'; // URL to fetch content
+  const contentUrl = '/apltv/channel/5054/play.json'; // URL to fetch content
 
   // Function to dynamically create a style sheet
   function createStyleSheet() {
@@ -60,4 +60,4 @@ console.log('hello');
 
   createStyleSheet(); // Ensure the style sheet is created
   updateContent(); // Start fetching and displaying content
-//});
+});
