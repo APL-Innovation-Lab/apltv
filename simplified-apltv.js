@@ -1,3 +1,4 @@
+console.log('hello');
 document.addEventListener('DOMContentLoaded', function() {
     const displayImage = document.getElementById('display-image');
     const contentUrl = 'https://library.austintexas.gov/apltv/channel/5054/play.json';  // URL to fetch content
