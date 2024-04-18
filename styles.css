@@ -1,10 +1,10 @@
 body {
 	margin: 0;
+	background: black;
 }
 #display-container {
-	margin: 0 !important;
-	padding: 0 !important;
-	background: black;
+	margin: 0;
+	padding: 0;
 }
 
 @keyframes fade-in-out {
