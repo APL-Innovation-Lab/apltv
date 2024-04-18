@@ -8,8 +8,9 @@ function createStyleSheet() {
   const style = document.createElement('style');
   style.innerHTML = `
     @keyframes fade-in-out {
-      0%, 100% { opacity: 0; }
-      5%, 95% { opacity: 1; }
+      0% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+      100% { opacity: 0; }
     }
     img.fade-in-out {
       animation: fade-in-out 34s linear infinite;
@@ -20,37 +21,32 @@ function createStyleSheet() {
 }
 
 async function fetchContent() {
-  console.log('Fetching content from:', contentUrl); // Log fetching attempt
+  console.log('Fetching content from:', contentUrl);
   try {
     const response = await fetch(contentUrl);
     const data = await response.json();
     const urls = data.map(item => item.url);
-    console.log('Fetched and processed content URLs:', urls); // Log the URLs after processing
+    console.log('Fetched and processed content URLs:', urls);
     return urls;
   } catch (error) {
     console.error('Failed to fetch content:', error);
-    return []; // Return empty in case of error to prevent app crash
+    return [];
   }
 }
 
 async function updateContent() {
   const contentUrls = await fetchContent();
-  console.log('Content URLs to display:', contentUrls); // Log the final URLs to be displayed
+  if (contentUrls.length === 0) {
+    console.log('No content to display.');
+    return;
+  }
   let currentIndex = 0;
-
-  function cycleContent() {
-    if (contentUrls.length === 0) {
-      console.log('No content to display.'); // Log if there's no content
-      return; // Avoid running if no content is fetched
-    }
+  setInterval(() => {
     console.log('Displaying image:', contentUrls[currentIndex]); // Log current image being displayed
     displayImage.src = contentUrls[currentIndex];
-    displayImage.classList.add('fade-in-out');
+    displayImage.className = 'fade-in-out'; // Ensure class is applied correctly
     currentIndex = (currentIndex + 1) % contentUrls.length;
-    console.log('Scheduled next image display.'); // Log when next image is scheduled
-  }
-
-  setInterval(cycleContent, 34000); // 34 seconds for each complete animation cycle
+  }, 34000); // 34 seconds for each complete animation cycle
 }
 
 createStyleSheet(); // Ensure the style sheet is created
