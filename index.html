@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APLTV Display</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/apltv/styles.css?cb={{timestamp}}">
 </head>
 <body>
     <div id="display-container">
-        <img id="display-image" src="" alt="Event Display">
+        <!-- "loading=lazy" attribute to enable lazy loading -->
+        <img id="display-image" src="" alt="Event Display" loading="lazy">
     </div>
-    <script>
-        // Dynamically append the script with a cache-busting URL parameter
-        var script = document.createElement('script');
-        script.src = 'simplified-apltv.js?cb=' + new Date().getTime(); // Timestamp as cache-buster
-        document.body.appendChild(script);
-    </script>
+    <script src="/apltv/simplified-apltv.js"></script>
 </body>
 </html>

@@ -1,35 +1,43 @@
-console.log('hello');
+// Enhancements for image preloading and controlled fade transitions
+document.addEventListener('DOMContentLoaded', () => {
+  const displayImage = document.getElementById('display-image');
+  const images = []; // This will be populated by fetchAndPreloadImages
+  const basePath = window.location.origin; // Gets the base path of your site
 
-const displayImage = document.getElementById('display-image');
-const contentUrl = '/apltv/channel/playa.json'; // Local URL to fetch content
+  function changeImage() {
+      console.log('Starting image change...');
+      displayImage.classList.remove('fade-in');
+      displayImage.classList.add('fade-out');
 
-async function fetchContent() {
-  console.log('Fetching content from:', contentUrl);
-  try {
-    const response = await fetch(contentUrl);
-    const data = await response.json();
-    const urls = data.map(item => item.url);
-    console.log('Fetched and processed content URLs:', urls);
-    return urls;
-  } catch (error) {
-    console.error('Failed to fetch content:', error);
-    return [];
+      // Using setTimeout to wait for fade-out to complete
+      setTimeout(() => {
+          const currentUrl = displayImage.src;
+          const currentIndex = images.findIndex(img => basePath + img === currentUrl);
+          console.log('Current index:', currentIndex);
+
+          const nextIndex = (currentIndex + 1) % images.length;
+          displayImage.src = basePath + images[nextIndex]; // Set the next image source
+          displayImage.classList.remove('fade-out');
+          displayImage.classList.add('fade-in');
+      }, 6000); // Wait for the 6s fade-out to complete
   }
-}
 
-async function updateContent() {
-  const contentUrls = await fetchContent();
-  if (contentUrls.length === 0) {
-    console.log('No content to display.');
-    return;
+  function fetchAndPreloadImages(jsonUrl) {
+      fetch(jsonUrl)
+      .then(response => response.json())
+      .then(data => {
+          data.forEach(item => {
+              images.push(item.url); // Directly push the path part from JSON
+          });
+          console.log('Images loaded:', images);
+          displayImage.src = basePath + images[0]; // Set the initial image
+          displayImage.classList.add('fade-in');
+          setInterval(changeImage, 42000); // Change image every 42 seconds (30s display + 6s fade-in-out)
+      })
+      .catch(error => {
+          console.error('Error loading images:', error);
+      });
   }
-  let currentIndex = 0;
-  setInterval(() => {
-    console.log('Displaying image:', contentUrls[currentIndex]); // Log current image being displayed
-    displayImage.src = contentUrls[currentIndex];
-    displayImage.className = 'fade-in-out'; // Ensure class is applied correctly
-    currentIndex = (currentIndex + 1) % contentUrls.length;
-  }, 38000); // Update to match the new animation cycle time
-}
 
-updateContent(); // Start fetching and displaying content
+  fetchAndPreloadImages('/apltv/channel/playa.json'); // Updated to use the correct JSON path
+});

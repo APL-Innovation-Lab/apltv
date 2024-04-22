@@ -1,30 +1,42 @@
-body {
+/* Previous existing styles maintained */
+body, html {
     margin: 0;
-    background: black;
-    height: 100%;  /* Ensures that the body takes full height of the viewport */
-    overflow: hidden; /* Prevents any scrolling caused by overflow */
+    padding: 0;
+    height: 100%;
+    overflow: hidden;  /* Ensures no scrolling on the entire document */
 }
 
 #display-container {
-    width: 100vw;   /* Viewport Width: 100% of the viewport width */
-    height: 100vh;  /* Viewport Height: 100% of the viewport height */
-    margin: 0;
-    padding: 0;
     background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden; /* Handles any overflow if the image is larger than the container */
+    cursor: none; /* Hides the cursor over the container */
 }
 
-img.fade-in-out {
-    width: 100vw;   /* Viewport Width: Ensures the image is as wide as the viewport */
-    height: 100vh;  /* Viewport Height: Ensures the image is as high as the viewport */
-    object-fit: cover; /* Covers the viewport while maintaining the aspect ratio */
-    object-position: center; /* Center the image within the element's box */
-    animation: fade-in-out 38s linear infinite;
+#display-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 6s ease-in-out; /* Slow fade-in transition for consistency */
+    opacity: 0; /* Start invisible */
 }
 
-@keyframes fade-in-out {
-    0%, 100% { opacity: 0; }
-    20%, 80% { opacity: 1; }
+#display-image.fade-in {
+    opacity: 1; /* Transition to fully visible */
+    animation: fadeIn 6s forwards;  /* Consistent with transition timing */
+}
+
+#display-image.fade-out {
+    animation: fadeOut 6s forwards; /* Consistent with transition timing */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
