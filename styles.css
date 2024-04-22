@@ -2,14 +2,15 @@
 body, html {
     margin: 0;
     padding: 0;
+    width: 100%;
     height: 100%;
     overflow: hidden;  /* Ensures no scrolling on the entire document */
 }
 
 #display-container {
     background: black;
-    width: 1920px;
-    height: 1080px;
+    width: 100%;
+    height: 100%;
     overflow: hidden; /* Handles any overflow if the image is larger than the container */
     cursor: none; /* Hides the cursor over the container */
 }
