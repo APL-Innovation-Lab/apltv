@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ../
+
 # Define the port number
 PORT=8001
 
