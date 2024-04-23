@@ -34,14 +34,52 @@ These files are located at the root of the repository, which also serves as a de
 
 The `styles.css` file is where developers can experiment with different styling options, including adjusting the timing for the fade in and out transitions of the images. This is the place to fine-tune visual effects to ensure the best visual experience for library visitors.
 
+## Local Development Environment Setup
+
+To start the local development environment for APLTV, run the `start.sh` script. This script sets up a basic Python web server and opens the application in a browser.
+
+```bash
+bash start.sh
+```
+
+### Script Contents
+
+```bash
+#!/bin/bash
+
+# Define the port number
+PORT=8001
+
+# Start the Python HTTP server in the background
+python3 -m http.server $PORT &
+
+# Wait a moment for the server to start
+sleep 1
+
+# Open Firefox to the specified URL
+open -a "/Applications/Firefox Developer Edition.app" "http://localhost:$PORT/apltv" &
+```
+
+### Browser Adjustment
+
+The script by default opens Firefox Developer Edition on macOS. If using a different browser or operating system, adjust the browser-opening command accordingly:
+
+- **For Google Chrome on macOS**:
+  ```bash
+  open -a "/Applications/Google Chrome.app" "http://localhost:$PORT/apltv" &
+  ```
+- **For Microsoft Edge on macOS**:
+  ```bash
+  open -a "/Applications/Microsoft Edge.app" "http://localhost:$PORT/apltv" &
+  ```
+- **For Windows users using Chrome**:
+  ```bash
+  start chrome "http://localhost:$PORT/apltv"
+  ```
+
 ## Maintenance and Troubleshooting
 
 Routine maintenance is recommended to ensure the APLTV system runs smoothly. This includes checking for software updates, verifying the integrity of scheduled content, and rebooting the system as necessary. Common issues and their solutions will be documented to assist with troubleshooting.
-
-## TODO
-
-- **Implement a Clock Display Feature:** Consider adding a JavaScript-generated clock displayed in the bottom right corner of the screen, providing real-time updates to visitors. This feature would enhance the utility of the APLTV by offering a constant time reference in addition to the rotating announcements.
-- **Handle Closing Sequences:** Adapt the streamlined script to manage the closing sequence, which is activated fifteen minutes before the library's closing time. This sequence should display a closing message alongside the current time, remaining onscreen to ensure all visitors are aware of the library's closing time.
 
 ## Future Upgrades
 
