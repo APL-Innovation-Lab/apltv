@@ -11,6 +11,16 @@
     ],
     [
         {
+            "title": "Greater Austin Book Festival",
+            "subtitle": "",
+            "time": "Saturday, May 11 - 10:00 AM to 5:00 PM",
+            "location": "Central Library",
+            "age_recommendation": "All ages welcome",
+            "iframe_src": ""
+        }
+    ],
+    [
+        {
             "title": "GAB Fest: Interactive Fiction Boutique",
             "subtitle": "",
             "time": "Saturday, May 11 - 10:00 AM to 4:00 PM",
@@ -26,7 +36,7 @@
             "time": "Saturday, May 11 - 10:30 AM to 11:30 AM",
             "location": "Gallery (2nd floor)",
             "age_recommendation": "All ages welcome",
-            "iframe_src": "//austin.bibliocommons.com/widgets/item/S67C2160930"
+            "iframe_src": ""
         },
         {
             "title": "GAB Fest: Storytime with Vanessa Roeder",
@@ -34,7 +44,7 @@
             "time": "Saturday, May 11 - 10:30 AM to 10:50 AM",
             "location": "Creative Children's Commons (3rd floor)",
             "age_recommendation": "All ages welcome",
-            "iframe_src": "//austin.bibliocommons.com/widgets/item/S67C2209753"
+            "iframe_src": ""
         },
         {
             "title": "GAB Fest: Writer's Craft & the Creative Process Panel Discussion",
