@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Slideshow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: black;
+        }
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 6s;
+            z-index: 2;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide-content {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+        .left-side {
+            width: 250px;
+            height: 100%;
+            background: url('gabfest.jpg') no-repeat center center/cover;
+            z-index: 1;
+        }
+        .event-content {
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: white;
+        }
+        .event {
+            margin-bottom: 20px;
+        }
+        .event-title {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        .event-subtitle {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .event-details {
+            font-size: 1em;
+            color: #333;
+        }
+        .fullscreen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .apl-event {
+            margin-bottom: 20px;
+        }
+        .event-time,
+        .event-loc {
+            margin-top: 10px;
+        }
+        .icon_svg {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .icon_alarm,
+        .icon_locations {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow" id="slideshow"></div>
+
+    <script>
+        fetch('./slides_data.json')
+            .then(response => response.json())
+            .then(slidesData => {
+                let currentSlideIndex = 0;
+                const DISPLAY_TIME = 18000; // Display time for each slide (18 seconds)
+                const FADE_TIME = 6000; // 6 seconds to fade out and 6 seconds to fade in
+
+                function isEventExpired(event) {
+                    const now = new Date();
+                    const eventEndTime = new Date(event.end_time);
+                    return now > eventEndTime;
+                }
+
+                function showSlide(index) {
+                    const slides = document.querySelectorAll('.slide');
+                    slides.forEach((slide, i) => {
+                        slide.classList.remove('active');
+                        slide.style.opacity = 0;
+                    });
+
+                    setTimeout(() => {
+                        slides[index].classList.add('active');
+                        slides[index].style.opacity = 1;
+                    }, FADE_TIME);
+                }
+
+                function nextSlide() {
+                    currentSlideIndex = (currentSlideIndex + 1) % (document.querySelectorAll('.slide').length);
+                    showSlide(currentSlideIndex);
+                }
+
+                function renderSlides() {
+                    const slideshow = document.getElementById('slideshow');
+
+                    slidesData.forEach((slideData, i) => {
+                        const slide = document.createElement('div');
+                        slide.classList.add('slide');
+
+                        if (slideData.length > 0 && slideData.some(event => !isEventExpired(event))) {
+                            const slideContent = document.createElement('div');
+                            slideContent.classList.add('slide-content');
+
+                            const leftSide = document.createElement('div');
+                            leftSide.classList.add('left-side');
+
+                            const eventContent = document.createElement('div');
+                            eventContent.classList.add('event-content');
+
+                            slideData.forEach(event => {
+                                if (!isEventExpired(event)) {
+                                    const eventDiv = document.createElement('div');
+                                    eventDiv.classList.add('grid-col-10', 'grid-offset-1', 'apl-event');
+
+                                    const eventNid = document.createElement('div');
+                                    eventNid.classList.add('views-field', 'views-field-nid');
+
+                                    const fieldContent = document.createElement('span');
+                                    fieldContent.classList.add('field-content');
+
+                                    const eventTitle = document.createElement('h3');
+                                    eventTitle.classList.add('event-title');
+                                    
+                                    const eventLink = document.createElement('div');
+                                    eventLink.textContent = event.title;
+
+                                    eventTitle.appendChild(eventLink);
+
+                                    const eventTime = document.createElement('div');
+                                    eventTime.classList.add('event-time');
+                                    eventTime.innerHTML = `
+                                        <span class="icon_svg"><img class="icon_alarm" src="./alarm_clock.svg"></span>
+                                        <span class="event_time">${event.time}</span>
+                                    `;
+
+                                    const eventLoc = document.createElement('div');
+                                    eventLoc.classList.add('event-loc');
+                                    eventLoc.innerHTML = `
+                                        <span class="icon_svg"><img class="icon_locations" src="./locations.svg"></span>
+                                        <span class="event_location">${event.location.replace(/\n/g, '<br>')}</span>
+                                    `;
+
+                                    fieldContent.appendChild(eventTitle);
+                                    fieldContent.appendChild(eventTime);
+                                    fieldContent.appendChild(eventLoc);
+
+                                    eventNid.appendChild(fieldContent);
+                                    eventDiv.appendChild(eventNid);
+
+                                    eventContent.appendChild(eventDiv);
+                                }
+                            });
+
+                            slideContent.appendChild(leftSide);
+                            slideContent.appendChild(eventContent);
+                            slide.appendChild(slideContent);
+                            slideshow.appendChild(slide);
+
+                            // Insert fullscreen gabfest.png slide after each event slide
+                            const gabfestSlide = document.createElement('div');
+                            gabfestSlide.classList.add('slide', 'fullscreen');
+                            const gabfestImage = document.createElement('img');
+                            gabfestImage.src = './gabfest.png';
+                            gabfestSlide.appendChild(gabfestImage);
+                            slideshow.appendChild(gabfestSlide);
+                        }
+                    });
+
+                    // Add the initial active class to the first slide
+                    document.querySelectorAll('.slide')[0].classList.add('active');
+                }
+
+                renderSlides();
+                setInterval(nextSlide, DISPLAY_TIME + (2 * FADE_TIME)); // Slide changes every 18 seconds with 6 seconds fade out and 6 seconds fade in
+            })
+            .catch(error => console.error('Error fetching slides data:', error));
+    </script>
+</body>
+</html>
