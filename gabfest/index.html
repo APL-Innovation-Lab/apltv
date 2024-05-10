@@ -182,6 +182,19 @@
                                     eventNid.appendChild(fieldContent);
                                     eventDiv.appendChild(eventNid);
 
+                                    if (event.iframe_src) {
+                                        const iframeDiv = document.createElement('div');
+                                        const iframe = document.createElement('iframe');
+                                        iframe.src = event.iframe_src;
+                                        iframe.width = "100%";
+                                        iframe.height = "300";
+                                        iframe.frameBorder = "0";
+                                        iframe.scrolling = "no";
+                                        iframe.allowTransparency = "true";
+                                        iframeDiv.appendChild(iframe);
+                                        eventDiv.appendChild(iframeDiv);
+                                    }
+
                                     eventContent.appendChild(eventDiv);
                                 }
                             });
